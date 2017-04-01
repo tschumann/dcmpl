@@ -13,7 +13,6 @@ func main() {
 	}
 
 	filename := os.Args[1]
-
 		
 	data, err := ioutil.ReadFile(filename)
 
@@ -23,6 +22,13 @@ func main() {
 	}
 	
 	lines := strings.Split(string(data), "\n")
+	
+	output, err := os.Create(filename + ".c")
+
+	if err != nil {
+		fmt.Println("Error opening file: ", err)
+		os.Exit(1)
+	}
 
 	registers := make(map[string]int)
 	
@@ -52,13 +58,20 @@ func main() {
 				if _, ok := registers[register]; ok {
 					registers[register]++
 				} else {
-					registers[register]] = 1
+					registers[register] = 1
 				}
 				
 				// saving the value of a special register, so don't say anything
 				if register == "esp" && registers[register] >= 2 {
 					continue
 				}
+			} else if tokens[j] == "pop" {
+				register := tokens[j + 1]
+				registers[register]--
+			} else if tokens[j] == "mov" {
+				output.Write([]byte(tokens[j + 1] + " = " + tokens[j + 2] + ";\n"));
+			} else if tokens[j] == "inc" {
+				output.Write([]byte(tokens[j + 1] + "++;\n"));
 			}
 			
 			fmt.Println(tokens[j])
