@@ -27,7 +27,44 @@ func main() {
 		os.Exit(1)
 	}
 	
-	lines := strings.Split(string(data), "\n")
+	raw_lines := strings.Split(string(data), "\n")
+	lines := make([]string, 0)
+
+	// go through and strip out all comments and commas etc
+	for i := 0; i < len(raw_lines); i++ {
+		tokens := strings.Fields(raw_lines[i])
+		line := ""
+		
+		if len(tokens) == 0 {
+			continue
+		}
+		
+		for j := 0; j < len(tokens); j++ {
+			token := tokens[j]
+			if token[len(token) - 1:] == "," {
+				token = tokens[j][:len(tokens[j]) - 1]
+			}
+
+			match, _ := regexp.MatchString("\\.\\w+:\\d+", token)
+
+			// ignore IDA's line prefix that contains segment and address data
+			if match == true {
+				continue
+			}
+			
+			if token[0:1] == ";" {
+				// skip comments
+				break
+			}
+			
+			line += token
+			line += " "
+		}
+		
+		if len(line) > 0 {
+			lines = append(lines, line)
+		}
+	}
 	
 	output, err := os.Create(filename + ".c")
 
@@ -42,28 +79,8 @@ func main() {
 	for i := 0; i < len(lines); i++ {
 		tokens := strings.Fields(lines[i])
 		
-		if len(tokens) == 0 {
-			continue
-		}
-		
 		for j := 0; j < len(tokens); j++ {
-			match, _ := regexp.MatchString("\\.\\w+:\\d+", tokens[j])
-
-			// ignore IDA's line prefix that contains segment and address data
-			if match == true {
-				continue
-			}
-
-			// TODO: can't change an array element?
-			if tokens[j][len(tokens[j]) - 1:] == "," {
-				var cropped = tokens[j][:len(tokens[j]) - 1]
-				tokens[j] = cropped
-			}
-
-			if tokens[j][0:1] == ";" {
-				// skip comments
-				break
-			} else if tokens[j] == "push" {
+			if tokens[j] == "push" {
 				register := tokens[j + 1]
 				if _, ok := registers[register]; ok {
 					registers[register]++
