@@ -5,17 +5,7 @@ import "io/ioutil"
 import "os"
 import "regexp"
 import "strings"
-
-func instruction_info () map[string]int {
-	instructions := map[string]int{
-		"call": 1,
-		"mov": 2,
-		"pop": 1,
-		"push": 1,
-	}
-
-	return instructions
-}
+import "./x86"
 
 func indent(output *os.File, level int) {
 	for i := 0; i < level; i++ {
@@ -84,11 +74,27 @@ func main() {
 		os.Exit(1)
 	}
 
+	instructions := x86.Instruction_info()
 	indentation := 0
 	registers := make(map[string]int)
 	
 	for i := 0; i < len(lines); i++ {
 		tokens := strings.Fields(lines[i])
+		
+		instruction := tokens[0]
+		instruction_data := instructions[instruction]
+		
+		// TODO: some things just won't be instructions e.g. labels so this isn't so good
+		if instruction_data == nil {
+			fmt.Println("No instruction data for", instruction);
+		} else {
+			// subtract one for the instruction itself
+			if len(tokens) - 1 > instruction_data.Max_arguments() {
+				fmt.Println("Instruction", instruction, "has", len(tokens), "arguments - expected at most", instruction_data.Max_arguments())
+				fmt.Println(tokens)
+				os.Exit(1)
+			}
+		}
 		
 		for j := 0; j < len(tokens); j++ {
 			if tokens[j] == "push" {
