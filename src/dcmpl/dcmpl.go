@@ -124,16 +124,12 @@ func main() {
 						output.Write([]byte("{\n"))
 						indentation++
 						break
-					} else if tokens[j][len(tokens[j]) - 1:] == ":" {
-						output.Write([]byte(tokens[j] + "\n"))
-						break
 					}
+				} else if tokens[j][len(tokens[j]) - 1:] == ":" {
+					output.Write([]byte(tokens[j] + "\n"))
+					break
 				}
 			}			
-			
-			// fmt.Println(tokens[j])
 		}
 	}
-	
-	// fmt.Println(registers)
 }
