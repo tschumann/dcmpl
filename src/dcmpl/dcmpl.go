@@ -6,6 +6,17 @@ import "os"
 import "regexp"
 import "strings"
 
+func instruction_info () map[string]int {
+	instructions := map[string]int{
+		"call": 1,
+		"mov": 2,
+		"pop": 1,
+		"push": 1,
+	}
+
+	return instructions
+}
+
 func indent(output *os.File, level int) {
 	for i := 0; i < level; i++ {
 		output.Write([]byte("\t"))
