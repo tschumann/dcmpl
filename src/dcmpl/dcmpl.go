@@ -96,6 +96,14 @@ func main() {
 			}
 		}
 		
+		var previous_line []string
+		var previous_instruction string
+
+		if i > 0 {
+			previous_line = strings.Fields(lines[i - 1])
+			previous_instruction = previous_line[0]
+		}
+		
 		for j := 0; j < len(tokens); j++ {
 			if tokens[j] == "push" {
 				register := tokens[j + 1]
@@ -133,6 +141,23 @@ func main() {
 				if tokens[j + 1] == "short" {
 					output.Write([]byte("goto " + tokens[j + 2] + ";\n"))
 				}
+			} else if tokens[j] == "jz" && previous_line != nil && previous_instruction == "test" && previous_line[1] == previous_line[2] {
+				var location string
+				if tokens[j + 1] == "short" {
+					location = tokens[j + 2]
+				} else {
+					location = tokens[j + 1]
+				}
+				indent(output, indentation)
+				output.Write([]byte("if( " + previous_line[1] + " == 0 )\n"))
+				indent(output, indentation)
+				output.Write([]byte("{\n"))
+				indentation++
+				indent(output, indentation)
+				output.Write([]byte("goto " + location + ";\n"))
+				indentation--
+				indent(output, indentation)
+				output.Write([]byte("}\n"))
 			} else {
 				if len(tokens) > j + 1 {
 					if tokens[j + 1] == "proc" {

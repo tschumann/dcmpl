@@ -7,3 +7,7 @@ type mov struct {
 func (i mov) Max_arguments() int {
     return 5
 }
+
+func (i mov) Sets_zero_flag() bool {
+	return false
+}

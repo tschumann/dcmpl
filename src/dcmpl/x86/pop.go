@@ -7,3 +7,7 @@ type pop struct {
 func (i pop) Max_arguments() int {
     return 1
 }
+
+func (i pop) Sets_zero_flag() bool {
+	return false
+}

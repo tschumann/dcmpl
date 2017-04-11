@@ -7,3 +7,7 @@ type jmp struct {
 func (i jmp) Max_arguments() int {
     return 2
 }
+
+func (i jmp) Sets_zero_flag() bool {
+	return false
+}

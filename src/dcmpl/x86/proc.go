@@ -7,3 +7,7 @@ type proc struct {
 func (i proc) Max_arguments() int {
     return 1
 }
+
+func (i proc) Sets_zero_flag() bool {
+	return false
+}

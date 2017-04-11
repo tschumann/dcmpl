@@ -7,3 +7,7 @@ type push struct {
 func (i push) Max_arguments() int {
     return 1
 }
+
+func (i push) Sets_zero_flag() bool {
+	return false
+}

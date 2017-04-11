@@ -7,3 +7,7 @@ type retn struct {
 func (i retn) Max_arguments() int {
     return 0
 }
+
+func (i retn) Sets_zero_flag() bool {
+	return false
+}
