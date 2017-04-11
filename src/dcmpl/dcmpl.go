@@ -124,15 +124,19 @@ func main() {
 				indent(output, indentation)
 				if tokens[j + 2] == "offset" {
 					output.Write([]byte(tokens[j + 1] + " = &" + tokens[j + 3] + ";\n"))
+				} else if tokens[j + 1] == "dword" && len(tokens) > 3 && tokens[j + 2] == "ptr" {
+					output.Write([]byte(tokens[j + 3] + " = " + tokens[j + 4] + ";\n"))
 				} else {
 					output.Write([]byte(tokens[j + 1] + " = " + tokens[j + 2] + ";\n"))
 				}
+				break
 			} else if tokens[j] == "inc" {
 				indent(output, indentation)
 				output.Write([]byte(tokens[j + 1] + "++;\n"))
 			} else if tokens[j] == "call" {
 				indent(output, indentation)
-				output.Write([]byte(tokens[j + 1] + "();\n"))
+				// TODO: not all functions have return values
+				output.Write([]byte("eax = " + tokens[j + 1] + "();\n"))
 			} else if tokens[j] == "retn" {
 				indent(output, indentation)
 				output.Write([]byte("return;\n"))
@@ -141,23 +145,42 @@ func main() {
 				if tokens[j + 1] == "short" {
 					output.Write([]byte("goto " + tokens[j + 2] + ";\n"))
 				}
-			} else if tokens[j] == "jz" && previous_line != nil && previous_instruction == "test" && previous_line[1] == previous_line[2] {
+			} else if tokens[j] == "jz" && previous_line != nil {
 				var location string
 				if tokens[j + 1] == "short" {
 					location = tokens[j + 2]
 				} else {
 					location = tokens[j + 1]
 				}
-				indent(output, indentation)
-				output.Write([]byte("if( " + previous_line[1] + " == 0 )\n"))
-				indent(output, indentation)
-				output.Write([]byte("{\n"))
-				indentation++
-				indent(output, indentation)
-				output.Write([]byte("goto " + location + ";\n"))
-				indentation--
-				indent(output, indentation)
-				output.Write([]byte("}\n"))
+
+				if previous_instruction == "test" && previous_line[1] == previous_line[2] {
+					indent(output, indentation)
+					output.Write([]byte("if( " + previous_line[1] + " == 0 )\n"))
+					indent(output, indentation)
+					output.Write([]byte("{\n"))
+					indentation++
+					indent(output, indentation)
+					output.Write([]byte("goto " + location + ";\n"))
+					indentation--
+					indent(output, indentation)
+					output.Write([]byte("}\n"))
+				} else if previous_instruction == "cmp" {
+					indent(output, indentation)
+					if previous_line[1] == "dword" && previous_line[2] == "ptr" {
+						output.Write([]byte("if( " + previous_line[3] + " == " + previous_line[4] + " )\n"))
+					} else {
+						output.Write([]byte("if( " + previous_line[1] + " == " + previous_line[2] + " )\n"))
+					}
+					indent(output, indentation)
+					output.Write([]byte("{\n"))
+					indentation++
+					indent(output, indentation)
+					output.Write([]byte("goto " + location + ";\n"))
+					indentation--
+					indent(output, indentation)
+					output.Write([]byte("}\n"))
+				}
+				break
 			} else {
 				if len(tokens) > j + 1 {
 					if tokens[j + 1] == "proc" {
