@@ -5,6 +5,7 @@ import "io/ioutil"
 import "os"
 import "regexp"
 import "strings"
+import "./asm"
 import "./x86"
 
 func indent(output *os.File, level int) {
@@ -30,6 +31,9 @@ func main() {
 	
 	raw_lines := strings.Split(string(data), "\n")
 	lines := make([]string, 0)
+	
+	assembly := asm.Assembly{}
+	// assembly.Lines := list.New()
 
 	// go through and strip out all comments and commas etc
 	for i := 0; i < len(raw_lines); i++ {
@@ -88,6 +92,11 @@ func main() {
 		if instruction_data == nil {
 			fmt.Println("No instruction data for", instruction);
 		} else {
+			line := asm.Line{}
+			line.Instruction = instruction_data
+			// TODO: add arguments here too, after checking below
+			assembly.Lines.PushBack(line)
+			
 			// subtract one for the instruction itself
 			if len(tokens) - 1 > instruction_data.Max_arguments() {
 				fmt.Println("Instruction", instruction, "has", len(tokens), "arguments - expected at most", instruction_data.Max_arguments())
