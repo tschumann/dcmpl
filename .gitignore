@@ -1,2 +1,4 @@
 *.exe
 *.c
+
+__pycache__
