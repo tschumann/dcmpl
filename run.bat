@@ -1,2 +1,1 @@
-call build.bat
-dcmpl.exe
+C:\Users\schum\AppData\Local\Programs\Python\Python36\python src/dcmpl/dcmpl.py

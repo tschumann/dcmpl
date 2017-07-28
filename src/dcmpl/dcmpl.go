@@ -146,9 +146,6 @@ func main() {
 				indent(output, indentation)
 				// TODO: not all functions have return values
 				output.Write([]byte("eax = " + tokens[j + 1] + "();\n"))
-			} else if tokens[j] == "retn" {
-				indent(output, indentation)
-				output.Write([]byte("return;\n"))
 			} else if tokens[j] == "jmp" {
 				indent(output, indentation)
 				if tokens[j + 1] == "short" {
@@ -190,19 +187,7 @@ func main() {
 					output.Write([]byte("}\n"))
 				}
 				break
-			} else {
-				if len(tokens) > j + 1 {
-					if tokens[j + 1] == "proc" {
-						indent(output, indentation)
-						output.Write([]byte("void *" + tokens[j] + "()\n"))
-						output.Write([]byte("{\n"))
-						indentation++
-						break
-					}
-				} else if tokens[j][len(tokens[j]) - 1:] == ":" {
-					output.Write([]byte(tokens[j] + "\n"))
-					break
-				}
+			}
 			}			
 		}
 	}

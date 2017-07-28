@@ -36,12 +36,14 @@ def decompile(filename):
 		tokens = line
 		for index in range(0, len(line)):
 			# if it's the first token then it could be an instruction
-			# if it doesn't end with a : then it is an instruction
+			# if it doesn't end with a : (like a label) then it is an instruction
 			if index == 0 and tokens[0][-1:] != ":":
 				if tokens[0] == "push":
 					pass
 				elif tokens[0] == "pop":
 					pass
+				elif tokens[0] == "retn":
+					output_file.write("return;\n")
 				elif tokens[0] == "mov":
 					if tokens[2] == "offset":
 						output_file.write(tokens[1] + " = &" + tokens[3] + ";\n")
@@ -50,7 +52,11 @@ def decompile(filename):
 					else:
 						output_file.write(tokens[1] + " = " + tokens[2] + ";\n")
 					continue
-				
+				else:
+					if len(tokens) >= 2 and tokens[1] == "proc":
+						output_file.write("void *" + tokens[0] + "()\n")
+			elif index == 0 and tokens[0][-1:] == ":":
+				output_file.write(tokens[0] + "\n")
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
