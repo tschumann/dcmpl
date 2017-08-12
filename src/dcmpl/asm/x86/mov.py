@@ -1,10 +1,10 @@
 from .x86_instruction import X86Instruction
 
-class Retn(X86Instruction):
+class Mov(X86Instruction):
 
 	@staticmethod
 	def max_arguments(self):
-		return 0
+		return 5
 
 	@staticmethod
 	def sets_zero_flag(self):

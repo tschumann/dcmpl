@@ -31,6 +31,9 @@ def decompile(filename):
 			cleaned_lines.append(cleaned_line)
 			
 	output_file = open(filename + ".c", "w")
+	
+	# TODO: eventually make this per-CPU
+	instructions = asm.assembly.get_x86_instructions()
 			
 	for line in cleaned_lines:
 		tokens = line
@@ -38,6 +41,12 @@ def decompile(filename):
 			# if it's the first token then it could be an instruction
 			# if it doesn't end with a : (like a label) then it is an instruction
 			if index == 0 and tokens[0][-1:] != ":":
+				instruction = None
+				
+				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it
+				if tokens[0] in instructions:
+					instruction = instructions[tokens[0]]
+
 				if tokens[0] == "push":
 					pass
 				elif tokens[0] == "pop":
