@@ -13,6 +13,7 @@ class Line(object):
 	
 class Assembly(object):
 	lines = []
+	registers = {}
 	
 	def __init__(self, raw_lines):
 		lines = []

@@ -28,6 +28,8 @@ def decompile(filename):
 				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it - shouldn't get this far if it's not a valid instruction though
 				if tokens[0] in instructions:
 					instruction = instructions[tokens[0]]
+				else:
+					print("Unknown instruction " + tokens[0])
 
 				if tokens[0] == "push":
 					pass
@@ -35,6 +37,11 @@ def decompile(filename):
 					pass
 				elif tokens[0] == "retn":
 					output_file.write("return;\n")
+				elif tokens[0] == "inc":
+					output_file.write(tokens[1] + "++;\n")
+				elif tokens[0] == "sub":
+					# TODO: convert to decimal (or make leave as hex an option?) or convert to what C thinks hex is
+					output_file.write(tokens[1] + " = " + tokens[1] + " - " + tokens[2] + ";\n")
 				elif tokens[0] == "mov":
 					if tokens[2] == "offset":
 						output_file.write(tokens[1] + " = &" + tokens[3] + ";\n")

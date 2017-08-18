@@ -139,9 +139,6 @@ func main() {
 					output.Write([]byte(tokens[j + 1] + " = " + tokens[j + 2] + ";\n"))
 				}
 				break
-			} else if tokens[j] == "inc" {
-				indent(output, indentation)
-				output.Write([]byte(tokens[j + 1] + "++;\n"))
 			} else if tokens[j] == "call" {
 				indent(output, indentation)
 				// TODO: not all functions have return values
