@@ -1,34 +1,16 @@
 import asm.instruction
 import asm.assembly
-import re
 import sys
 
 def decompile(filename):
 	raw_lines = []
-	cleaned_lines = []
 	
+	# get the assembly in line by line
 	with open(filename) as file:
 		raw_lines = file.read().splitlines()
-		
-	for line in raw_lines:
-		tokens = line.split()
-		cleaned_line = []
 
-		for token in tokens:
-			# skip comments
-			if token[0] == ";":
-				continue
-				
-			if re.match("\\.\\w+:\\d+", token):
-				continue
-
-			if token[-1:] == ",":
-				token = token[:-1]
-				
-			cleaned_line.append(token)
-			
-		if len(cleaned_line) > 0:
-			cleaned_lines.append(cleaned_line)
+	assembly = asm.assembly.Assembly(raw_lines)
+	cleaned_lines = assembly.get_lines()
 			
 	output_file = open(filename + ".c", "w")
 	
@@ -43,7 +25,7 @@ def decompile(filename):
 			if index == 0 and tokens[0][-1:] != ":":
 				instruction = None
 				
-				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it
+				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it - shouldn't get this far if it's not a valid instruction though
 				if tokens[0] in instructions:
 					instruction = instructions[tokens[0]]
 
