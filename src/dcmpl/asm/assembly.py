@@ -6,14 +6,11 @@ import re
 # TODO: this should be a generic getter based on whatever CPU is currently being looked at
 def get_x86_instructions():
 	return asm.x86.instructions.get_instructions()
-
-class Line(object):
-	instruction = None
-	arguments = []
 	
 class Assembly(object):
 	lines = []
 	registers = {}
+	instructions = []
 	
 	def __init__(self, raw_lines):
 		lines = []
@@ -44,6 +41,18 @@ class Assembly(object):
 				lines.append(cleaned_line)
 			
 		self.lines = lines
+
+		valid_instructions = get_x86_instructions()
+
+		for tokens in self.lines:
+			instruction_name = tokens[0]
+
+			# if the instruction is known
+			if instruction_name in valid_instructions:
+				# instantiate an instance of the instruction with the arguments
+				instruction = valid_instructions[instruction_name](tokens[1:])
+				# add it to the list of instructions
+				self.instructions.append(instruction)
 
 	# TODO: eventuall get rid of this and move the processing into this class
 	def get_lines(self):
