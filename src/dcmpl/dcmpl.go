@@ -129,20 +129,6 @@ func main() {
 			} else if tokens[j] == "pop" {
 				register := tokens[j + 1]
 				registers[register]--
-			} else if tokens[j] == "mov" {
-				indent(output, indentation)
-				if tokens[j + 2] == "offset" {
-					output.Write([]byte(tokens[j + 1] + " = &" + tokens[j + 3] + ";\n"))
-				} else if tokens[j + 1] == "dword" && len(tokens) > 3 && tokens[j + 2] == "ptr" {
-					output.Write([]byte(tokens[j + 3] + " = " + tokens[j + 4] + ";\n"))
-				} else {
-					output.Write([]byte(tokens[j + 1] + " = " + tokens[j + 2] + ";\n"))
-				}
-				break
-			} else if tokens[j] == "call" {
-				indent(output, indentation)
-				// TODO: not all functions have return values
-				output.Write([]byte("eax = " + tokens[j + 1] + "();\n"))
 			} else if tokens[j] == "jmp" {
 				indent(output, indentation)
 				if tokens[j + 1] == "short" {

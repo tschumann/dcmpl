@@ -39,6 +39,8 @@ def decompile(filename):
 					output_file.write("return;\n")
 				elif tokens[0] == "inc":
 					output_file.write(tokens[1] + "++;\n")
+				elif tokens[0] == "call":
+					output_file.write("eax = " + tokens[1] + "();\n")
 				elif tokens[0] == "sub":
 					# TODO: convert to decimal (or make leave as hex an option?) or convert to what C thinks hex is
 					output_file.write(tokens[1] + " = " + tokens[1] + " - " + tokens[2] + ";\n")
