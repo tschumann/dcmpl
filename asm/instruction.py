@@ -13,6 +13,8 @@ class Instruction(object):
 	def __init__(self, arguments):
 		self.arguments = arguments
 		self.processed = False
+		self.assembly = None
+		self.assembly_index = -1
 
 	def generate_code(self):
 		"""
