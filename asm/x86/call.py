@@ -9,3 +9,9 @@ class Call(X86Instruction):
 	@staticmethod
 	def sets_zero_flag(self):
 		return false
+
+	def generate_code(self):
+		# TODO: need to fine likely arguments
+		return [
+			self.arguments[1] + "();"
+		]
