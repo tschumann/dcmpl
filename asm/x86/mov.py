@@ -8,4 +8,4 @@ class Mov(X86Instruction):
 
 	@staticmethod
 	def sets_zero_flag(self):
-		return false
+		return False

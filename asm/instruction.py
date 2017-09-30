@@ -23,3 +23,6 @@ class Instruction(object):
 		TODO: need to fail if processed is True
 		"""
 		pass
+		
+	def modifies_register(self, register):
+		pass
