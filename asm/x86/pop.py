@@ -3,6 +3,9 @@ from .x86_architecture import registers
 
 class Pop(X86Instruction):
 
+	def generate_code(self):
+		self.assembly.stack.pop()
+
 	def modifies_register(self, register):
 		super().modifies_register(register)
 

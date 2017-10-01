@@ -5,8 +5,6 @@ import "io/ioutil"
 import "os"
 import "regexp"
 import "strings"
-import "./asm"
-import "./x86"
 
 func indent(output *os.File, level int) {
 	for i := 0; i < level; i++ {

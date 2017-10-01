@@ -11,6 +11,7 @@ class Assembly(object):
 	lines = []
 	registers = {}
 	instructions = []
+	stack = []
 	
 	def __init__(self, raw_lines):
 		lines = []
@@ -53,6 +54,10 @@ class Assembly(object):
 				instruction = valid_instructions[instruction_name](tokens[1:])
 				# add it to the list of instructions
 				self.instructions.append(instruction)
+	
+	def generate_code(self):
+		for instruction in self.instructions:
+			instruction.generate_code()
 
 	# TODO: eventuall get rid of this and move the processing into this class
 	def get_lines(self):
