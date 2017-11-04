@@ -22,5 +22,5 @@ class Call(X86Instruction):
 	def generate_code(self):
 		# TODO: need to find likely arguments
 		return [
-			self.arguments[1] + "();"
+			"eax = " + self.arguments[0] + "();"
 		]

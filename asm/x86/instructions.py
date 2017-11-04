@@ -13,6 +13,7 @@ from .test import Test
 
 def get_instructions():
 	return {
+		"call": Call,
 		"retn": Retn,
 		"test": Test
 	}

@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 
 class Instruction(object):
 	arguments = []
@@ -16,13 +17,13 @@ class Instruction(object):
 		self.assembly = None
 		self.assembly_index = -1
 
+	@abstractmethod
 	def generate_code(self):
 		"""
 		Generate C code for this instruction and its arguments.
 		TODO: will probably need a reference to the global instruction list to be able to this
 		TODO: need to fail if processed is True
 		"""
-		pass
 		
 	def modifies_register(self, register):
 		pass

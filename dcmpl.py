@@ -15,36 +15,39 @@ def decompile(filename):
 	output_file = open(filename + ".c", "w")
 	
 	# TODO: eventually make this per-CPU
-	instructions = asm.assembly.get_x86_instructions()
+	valid_instructions = asm.assembly.get_x86_instructions()
 			
 	for line in cleaned_lines:
 		tokens = line
 		for index in range(0, len(line)):
+			instruction = tokens[0]
+
 			# if it's the first token then it could be an instruction
 			# if it doesn't end with a : (like a label) then it is an instruction
-			if index == 0 and tokens[0][-1:] != ":":
-				instruction = None
+			if index == 0 and instruction[-1:] != ":":
 				
 				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it - shouldn't get this far if it's not a valid instruction though
-				if tokens[0] in instructions:
-					instruction = instructions[tokens[0]]
-				else:
-					print("Unknown instruction " + tokens[0])
+				if instruction in valid_instructions:
+					# get the instruction class
+					instruction_class = valid_instructions[instruction]
+					# instantiate the instruction class with the instruction parameters and generate the code
+					generated_code = instruction_class(tokens[1:]).generate_code()
 
-				if tokens[0] == "push":
+					for line in generated_code:
+						output_file.write(line  + "\n");
+				else:
+					print("Unknown instruction " + instruction)
+
+				if instruction == "push":
 					pass
-				elif tokens[0] == "pop":
+				elif instruction == "pop":
 					pass
-				elif tokens[0] == "retn":
-					output_file.write("return;\n")
-				elif tokens[0] == "inc":
+				elif instruction == "inc":
 					output_file.write(tokens[1] + "++;\n")
-				elif tokens[0] == "call":
-					output_file.write("eax = " + tokens[1] + "();\n")
-				elif tokens[0] == "sub":
+				elif instruction == "sub":
 					# TODO: convert to decimal (or make leave as hex an option?) or convert to what C thinks hex is
 					output_file.write(tokens[1] + " = " + tokens[1] + " - " + tokens[2] + ";\n")
-				elif tokens[0] == "mov":
+				elif instruction == "mov":
 					if tokens[2] == "offset":
 						output_file.write(tokens[1] + " = &" + tokens[3] + ";\n")
 					elif tokens[1] == "dword" and len(tokens) > 3 and tokens[2] == "ptr":
@@ -54,9 +57,9 @@ def decompile(filename):
 					continue
 				else:
 					if len(tokens) >= 2 and tokens[1] == "proc":
-						output_file.write("void *" + tokens[0] + "()\n")
-			elif index == 0 and tokens[0][-1:] == ":":
-				output_file.write(tokens[0] + "\n")
+						output_file.write("void *" + instruction + "()\n")
+			elif index == 0 and instruction[-1:] == ":":
+				output_file.write(instruction + "\n")
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:

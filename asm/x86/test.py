@@ -14,3 +14,7 @@ class Test(X86Instruction):
 	@staticmethod
 	def sets_zero_flag(self):
 		return True
+
+	def generate_code(self):
+		# TODO: this needs to be an if statement probably
+		return []
