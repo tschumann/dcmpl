@@ -33,11 +33,7 @@ def decompile(filename):
 				else:
 					print("Unknown instruction " + instruction)
 
-				if instruction == "push":
-					pass
-				elif instruction == "pop":
-					pass
-				elif instruction == "inc":
+				if instruction == "inc":
 					output_file.write(tokens[1] + "++;\n")
 				elif instruction == "sub":
 					# TODO: convert to decimal (or make leave as hex an option?) or convert to what C thinks hex is

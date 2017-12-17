@@ -8,11 +8,16 @@ class Assembly(object):
 	registers = {}
 	instructions = []
 	stack = []
-	
+
+	_valid_registers = []
 	_valid_instructions = []
 
 	def __init__(self, raw_lines):
 		lines = []
+
+		self._valid_registers = ['eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'esp']
+		# cache this as a member
+		self._valid_instructions = asm.x86.instructions.get_instructions()
 
 		# tidy up the raw assembly
 		for line in raw_lines:
@@ -37,19 +42,11 @@ class Assembly(object):
 				# save the line after getting rid of bad tokens etc
 				cleaned_line.append(token)
 
-			# if it's a function, swap things around so it's handled as an instruction
-			if len(cleaned_line) > 1 and cleaned_line[1] == "proc":
-				function_name = cleaned_line[0]
-				cleaned_line[0] = "proc"
-				cleaned_line[1] = function_name
-
 			# if there was actually something we can use on the line, keep it
 			if len(cleaned_line) > 0:
 				lines.append(cleaned_line)
 			
 		self.lines = lines
-
-		self._valid_instructions = asm.x86.instructions.get_instructions()
 
 		for tokens in self.lines:
 			instruction_name = tokens[0]

@@ -1,15 +1,15 @@
 from .x86_instruction import X86Instruction
 
-class Pop(X86Instruction):
+class Public(X86Instruction):
+	"""
+	Not really an instruction but IDA outputs this
+	at the start of a function definition.
+	"""
 
 	def modifies_register(self, register):
 		super().modifies_register(register)
-
-		# popping modifies the target register and the stack pointer
-		if self.arguments[0] == register or register == 'esp':
-			return True
-		else:
-			return False
+		
+		return False
 
 	@staticmethod
 	def max_arguments(self):
@@ -20,5 +20,7 @@ class Pop(X86Instruction):
 		return False
 
 	def generate_code(self):
-		# keep track of the pop
-		self.assembly.stack.pop()
+		return [
+			"void *" + self.arguments[0] + "()",
+			"{"
+		]

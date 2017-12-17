@@ -1,5 +1,4 @@
 from .x86_instruction import X86Instruction
-from .x86_architecture import registers
 
 class Inc(X86Instruction):
 

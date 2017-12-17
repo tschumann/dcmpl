@@ -1,15 +1,20 @@
 from .x86_instruction import X86Instruction
 
-class Proc(X86Instruction):
+class Add(X86Instruction):
 
 	def modifies_register(self, register):
 		super().modifies_register(register)
 		
-		return False
+		# if the argument is a register
+		if self.arguments[0] == register:
+			# it modifies the register
+			return True
+		else:
+			return False
 
 	@staticmethod
 	def max_arguments(self):
-		return 1
+		return 2
 
 	@staticmethod
 	def sets_zero_flag(self):
@@ -17,6 +22,5 @@ class Proc(X86Instruction):
 
 	def generate_code(self):
 		return [
-			"void * " + self.arguments[0] + "()",
-			"{"
+			self.arguments[0] + " = " + self.arguments[0] + " + " + self.arguments[1] + ";"
 		]
