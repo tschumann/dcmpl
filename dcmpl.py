@@ -13,9 +13,6 @@ def decompile(filename):
 	cleaned_lines = assembly.get_lines()
 			
 	output_file = open(filename + ".c", "w")
-	
-	# TODO: eventually make this per-CPU
-	valid_instructions = asm.assembly.get_x86_instructions()
 			
 	for line in cleaned_lines:
 		tokens = line
@@ -27,11 +24,9 @@ def decompile(filename):
 			if index == 0 and instruction[-1:] != ":":
 				
 				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it - shouldn't get this far if it's not a valid instruction though
-				if instruction in valid_instructions:
-					# get the instruction class
-					instruction_class = valid_instructions[instruction]
+				if assembly.is_valid_instruction(instruction):
 					# instantiate the instruction class with the instruction parameters and generate the code
-					generated_code = instruction_class(tokens[1:]).generate_code()
+					generated_code = assembly.get_instruction_class_object(instruction, tokens[1:]).generate_code()
 
 					for line in generated_code:
 						output_file.write(line  + "\n");
@@ -55,9 +50,7 @@ def decompile(filename):
 					else:
 						output_file.write(tokens[1] + " = " + tokens[2] + ";\n")
 					continue
-				else:
-					if len(tokens) >= 2 and tokens[1] == "proc":
-						output_file.write("void *" + instruction + "()\n")
+			# if it is a label
 			elif index == 0 and instruction[-1:] == ":":
 				output_file.write(instruction + "\n")
 

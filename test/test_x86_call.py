@@ -29,9 +29,9 @@ class TestX86Call(unittest.TestCase):
 			self.assertEqual(call.modifies_register(e[0]), e[1])
 
 	def test_generate_code(self):
-		call = Call(['call', 'func'])
+		call = Call(['func'])
 		
-		self.assertEqual(call.generate_code(), ['func();'])
+		self.assertEqual(call.generate_code(), ['eax = func();'])
 
 if __name__ == '__main__':
     unittest.main()

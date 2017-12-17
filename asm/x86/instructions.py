@@ -14,6 +14,7 @@ from .test import Test
 def get_instructions():
 	return {
 		"call": Call,
+		"proc": Proc,
 		"retn": Retn,
 		"test": Test
 	}

@@ -17,7 +17,7 @@ class Retn(X86Instruction):
 		return False
 
 	def generate_code(self):
-		# TODO: this needs to be an if statement probably
+		# TODO: infer the return type if any
 		return [
 			"return;"
 		]

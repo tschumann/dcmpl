@@ -2,9 +2,6 @@ from .x86_instruction import X86Instruction
 
 class Push(X86Instruction):
 
-	def generate_code(self):
-		self.assembly.stack.append(self.arguments[0])
-
 	def modifies_register(self, register):
 		super().modifies_register(register)
 
@@ -21,3 +18,7 @@ class Push(X86Instruction):
 	@staticmethod
 	def sets_zero_flag(self):
 		return False
+	
+	def generate_code(self):
+		# keep track of the push
+		self.assembly.stack.append(self.arguments[0])
