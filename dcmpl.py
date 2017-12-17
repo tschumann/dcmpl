@@ -1,15 +1,24 @@
 import asm.instruction
 import asm.assembly
+import asm.mips.mips_assembly
+import asm.x86.x86_assembly
 import sys
 
-def decompile(filename):
+def decompile(architecture, filename):
 	raw_lines = []
 	
 	# get the assembly in line by line
 	with open(filename) as file:
 		raw_lines = file.read().splitlines()
 
-	assembly = asm.assembly.Assembly(raw_lines)
+	if architecture == 'x86':
+		assembly = asm.x86.x86_assembly.X86Assembly(raw_lines)
+	elif architecture == 'mips':
+		assembly = asm.mips.mips_assembly.MIPSAssembly(raw_lines)
+	else:
+		# TODO: error out
+		assembly = None
+
 	cleaned_lines = assembly.get_lines()
 			
 	output_file = open(filename + ".c", "w")
@@ -51,8 +60,8 @@ def decompile(filename):
 				output_file.write(instruction + "\n")
 
 if __name__ == '__main__':
-	if len(sys.argv) < 2:
-		print("No file specified")
+	if len(sys.argv) < 3:
+		print("No architecture and file specified")
 		sys.exit()
 
-	decompile(sys.argv[1])
+	decompile(sys.argv[1], sys.argv[2])

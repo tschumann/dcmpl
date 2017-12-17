@@ -24,6 +24,11 @@ class Instruction(object):
 		TODO: will probably need a reference to the global instruction list to be able to this
 		TODO: need to fail if processed is True
 		"""
-		
+
+	@abstractmethod
 	def modifies_register(self, register):
+		pass
+
+	@abstractmethod
+	def max_arguments(self):
 		pass

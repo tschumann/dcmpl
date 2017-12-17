@@ -1,6 +1,3 @@
-import asm.x86.x86_instruction
-import asm.x86.instructions
-
 import re
 	
 class Assembly(object):
@@ -14,10 +11,6 @@ class Assembly(object):
 
 	def __init__(self, raw_lines):
 		lines = []
-
-		self._valid_registers = ['eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'esp']
-		# cache this as a member
-		self._valid_instructions = asm.x86.instructions.get_instructions()
 
 		# tidy up the raw assembly
 		for line in raw_lines:
