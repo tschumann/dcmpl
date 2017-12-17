@@ -6,11 +6,12 @@ class Assembly(object):
 	instructions = []
 	stack = []
 
-	_valid_registers = []
 	_valid_instructions = []
 
 	def __init__(self, raw_lines):
 		lines = []
+
+		self._valid_instructions = self.get_valid_instructions()
 
 		# tidy up the raw assembly
 		for line in raw_lines:
@@ -71,3 +72,9 @@ class Assembly(object):
 	# TODO: eventuall get rid of this and move the processing into this class
 	def get_lines(self):
 		return self.lines
+
+	def get_valid_registers(self):
+		pass
+
+	def get_valid_instructions(self):
+		pass

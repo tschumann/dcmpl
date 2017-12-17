@@ -4,14 +4,14 @@ from .instructions import get_instructions
 
 class X86Assembly(Assembly):
 
-	def __init__(self, raw_lines):
-		super().__init__(raw_lines)
-
-		# TODO: work out how to deal with x86/x64
-		if True:
-			self._valid_registers = ['eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'edp', 'esp']
+	def get_valid_registers(self):
+		if self.is_x64():
+			return ['rax', 'rbx', 'rcx', 'rdx', 'rdi', 'rsi', 'rbp', 'rsp', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15']
 		else:
-			self._valid_registers = ['rax', 'rbx', 'rcx', 'rdx', 'rdi', 'rsi', 'rbp', 'rsp', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15']
+			return ['eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'ebp', 'esp']
 
-		# cache this as a member
-		self._valid_instructions = get_instructions()
+	def get_valid_instructions(self):
+		return get_instructions();
+
+	def is_x64(self):
+		return False

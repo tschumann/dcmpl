@@ -22,7 +22,7 @@ def decompile(architecture, filename):
 	cleaned_lines = assembly.get_lines()
 			
 	output_file = open(filename + ".c", "w")
-			
+
 	for line in cleaned_lines:
 		tokens = line
 		for index in range(0, len(line)):

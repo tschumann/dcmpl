@@ -25,9 +25,13 @@ class Instruction(object):
 		TODO: need to fail if processed is True
 		"""
 
-	@abstractmethod
 	def modifies_register(self, register):
-		pass
+		# if it's not a valid register throw an error
+		if register not in self.assembly.get_valid_registers():
+			raise ValueError("No such register " + register)
+
+		# let the subclasses figure it out
+		return False
 
 	@abstractmethod
 	def max_arguments(self):
