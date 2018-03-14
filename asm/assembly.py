@@ -4,6 +4,7 @@ class Assembly(object):
 	lines = []
 	registers = {}
 	instructions = []
+	# register stack
 	stack = []
 
 	_valid_instructions = []
@@ -69,7 +70,7 @@ class Assembly(object):
 		for instruction in self.instructions:
 			instruction.generate_code()
 
-	# TODO: eventuall get rid of this and move the processing into this class
+	# TODO: eventually get rid of this and move the processing into this class
 	def get_lines(self):
 		return self.lines
 
