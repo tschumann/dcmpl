@@ -42,9 +42,7 @@ def decompile(architecture, filename):
 				else:
 					print("Unknown instruction " + instruction)
 
-				if instruction == "inc":
-					output_file.write(tokens[1] + "++;\n")
-				elif instruction == "mov":
+				if instruction == "mov":
 					if tokens[2] == "offset":
 						output_file.write(tokens[1] + " = &" + tokens[3] + ";\n")
 					elif tokens[1] == "dword" and len(tokens) > 3 and tokens[2] == "ptr":

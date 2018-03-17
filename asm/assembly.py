@@ -79,3 +79,6 @@ class Assembly(object):
 
 	def get_valid_instructions(self):
 		pass
+
+	def get_stack_register(self):
+		pass

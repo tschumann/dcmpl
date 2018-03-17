@@ -112,22 +112,7 @@ func main() {
 		}
 		
 		for j := 0; j < len(tokens); j++ {
-			if tokens[j] == "push" {
-				register := tokens[j + 1]
-				if _, ok := registers[register]; ok {
-					registers[register]++
-				} else {
-					registers[register] = 1
-				}
-				
-				// saving the value of a special register, so don't say anything
-				if register == "esp" && registers[register] >= 2 {
-					continue
-				}
-			} else if tokens[j] == "pop" {
-				register := tokens[j + 1]
-				registers[register]--
-			} else if tokens[j] == "jmp" {
+			if tokens[j] == "jmp" {
 				indent(output, indentation)
 				if tokens[j + 1] == "short" {
 					output.Write([]byte("goto " + tokens[j + 2] + ";\n"))

@@ -21,11 +21,11 @@ class Sub(X86Instruction):
 		return True
 	
 	def generate_code(self):
-		# if esp is being manipulated and it is currently populated with the stack pointer
-		if self.arguments[0] === "esp" and self.get_count_on_stack("esp") == 0:
+		# if esp/rsp is being manipulated and it is currently populated with the stack pointer
+		if self.arguments[0] == self.assembly.get_stack_register() and self.get_count_on_stack(self.assembly.get_stack_register()) == 0:
 			# don't generate any code
 			return []
 		else:
 			return [
-				self.arguments[0] + " = " + self.arguments[0] + " - " self.arguments[1]
+				self.arguments[0] + " = " + self.arguments[0] + " - " + self.arguments[1]
 			]

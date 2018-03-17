@@ -19,3 +19,13 @@ class Inc(X86Instruction):
 	@staticmethod
 	def sets_zero_flag(self):
 		return False
+
+	def generate_code(self):
+		# if esp/rsp is being manipulated and it is currently populated with the stack pointer
+		if self.arguments[0] == self.assembly.get_stack_register() and self.get_count_on_stack(self.assembly.get_stack_register()) == 0:
+			# don't generate any code
+			return []
+		else:
+			return [
+				self.arguments[0] + " = " + self.arguments[0] + " + " + self.arguments[1]
+			]

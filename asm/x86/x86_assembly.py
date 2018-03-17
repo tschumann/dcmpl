@@ -13,6 +13,12 @@ class X86Assembly(Assembly):
 	def get_valid_instructions(self):
 		return get_instructions();
 
+	def get_stack_register(self):
+		if self.is_x64():
+			return "rsp"
+		else:
+			return "esp"
+
 	def is_x64(self):
 		return False
 
