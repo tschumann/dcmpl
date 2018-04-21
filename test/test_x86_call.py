@@ -26,7 +26,7 @@ class TestX86Call(unittest.TestCase):
 		# make sure all registers are being checked
 		self.assertEqual(len(provider), len(assembly.get_valid_registers()))
 
-		call = Call(['call', 'func'])
+		call = Call(['func'])
 		call.assembly = assembly
 
 		for e in provider:

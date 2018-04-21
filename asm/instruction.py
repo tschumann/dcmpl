@@ -17,13 +17,13 @@ class Instruction(object):
 		self.assembly = None
 		self.assembly_index = -1
 
-	@abstractmethod
 	def generate_code(self):
 		"""
 		Generate C code for this instruction and its arguments.
 		TODO: will probably need a reference to the global instruction list to be able to this
 		TODO: need to fail if processed is True
 		"""
+		raise Exception("Override generate_code in " + self.__class__.__name__)
 
 	def modifies_register(self, register):
 		# if it's not a valid register throw an error

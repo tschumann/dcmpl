@@ -41,15 +41,6 @@ def decompile(architecture, filename):
 						output_file.write(line  + "\n");
 				else:
 					print("Unknown instruction " + instruction)
-
-				if instruction == "mov":
-					if tokens[2] == "offset":
-						output_file.write(tokens[1] + " = &" + tokens[3] + ";\n")
-					elif tokens[1] == "dword" and len(tokens) > 3 and tokens[2] == "ptr":
-						output_file.write(tokens[3] + " = " + tokens[4] + ";\n")
-					else:
-						output_file.write(tokens[1] + " = " + tokens[2] + ";\n")
-					continue
 			# if it is a label
 			elif index == 0 and instruction[-1:] == ":":
 				output_file.write(instruction + "\n")
