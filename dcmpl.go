@@ -6,12 +6,6 @@ import "os"
 import "regexp"
 import "strings"
 
-func indent(output *os.File, level int) {
-	for i := 0; i < level; i++ {
-		output.Write([]byte("\t"))
-	}
-}
-
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Println("No file specified")
@@ -86,31 +80,6 @@ func main() {
 		instruction := tokens[0]
 		instruction_data := instructions[instruction]
 		
-		// TODO: some things just won't be instructions e.g. labels so this isn't so good
-		if instruction_data == nil {
-			fmt.Println("No instruction data for", instruction);
-		} else {
-			line := asm.Line{}
-			line.Instruction = instruction_data
-			// TODO: add arguments here too, after checking below
-			assembly.Lines.PushBack(line)
-			
-			// subtract one for the instruction itself
-			if len(tokens) - 1 > instruction_data.Max_arguments() {
-				fmt.Println("Instruction", instruction, "has", len(tokens), "arguments - expected at most", instruction_data.Max_arguments())
-				fmt.Println(tokens)
-				os.Exit(1)
-			}
-		}
-		
-		var previous_line []string
-		var previous_instruction string
-
-		if i > 0 {
-			previous_line = strings.Fields(lines[i - 1])
-			previous_instruction = previous_line[0]
-		}
-		
 		for j := 0; j < len(tokens); j++ {
 			if tokens[j] == "jmp" {
 				indent(output, indentation)
@@ -153,8 +122,7 @@ func main() {
 					output.Write([]byte("}\n"))
 				}
 				break
-			}
-			}			
+			}		
 		}
 	}
 }

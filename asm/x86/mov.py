@@ -27,7 +27,15 @@ class Mov(X86Instruction):
 		# if the source starts with "offset"
 		elif self.arguments[source_index] == "offset":
 			source_index += 1
+		
+		destination = self.arguments[destination_index]
+
+		# if it's a local variable in the form [esp+XXh+var_X]
+		if destination.startswith("[esp+"):
+			# chop off the leading [esp+XXh+ and trailing ]
+			# TODO: use a regex to make this not so hacky
+			destination = destination[destination.rfind("+") + 1:-1]
 
 		return [
-			self.arguments[destination_index] + " = " + self.arguments[source_index] + ";"
+			destination + " = " + self.arguments[source_index] + ";"
 		]
