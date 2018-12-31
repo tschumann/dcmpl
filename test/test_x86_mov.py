@@ -18,7 +18,7 @@ class TestX86Call(unittest.TestCase):
 	def test_generate_code_offset_src(self):
 		mov = Mov(['[esp+10h+var_10]', 'offset', 'aPf_precache__5'])
 
-		self.assertEqual(mov.generate_code(), ['[esp+10h+var_10] = aPf_precache__5;'])
+		self.assertEqual(mov.generate_code(), ['var_10 = aPf_precache__5;'])
 
 	def test_generate_code_dword_ptr_src(self):
 		mov = Mov(['eax', 'dword', 'ptr', 'ds:(sv+30148h)[ebx*4]'])

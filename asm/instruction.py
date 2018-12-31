@@ -33,6 +33,9 @@ class Instruction(object):
 		# let the subclasses figure it out
 		return False
 
+	def get_argument_count(self):
+		return len(self.arguments)
+
 	@abstractmethod
 	def max_arguments(self):
 		pass

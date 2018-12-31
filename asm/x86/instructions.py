@@ -18,6 +18,7 @@ def get_instructions():
 		"add": Add,
 		"align": Align,
 		"call": Call,
+		"jmp": Jmp,
 		"mov": Mov,
 		"public": Public,
 		"retn": Retn,

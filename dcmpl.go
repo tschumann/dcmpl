@@ -26,42 +26,6 @@ func main() {
 	
 	assembly := asm.Assembly{}
 	// assembly.Lines := list.New()
-
-	// go through and strip out all comments and commas etc
-	for i := 0; i < len(raw_lines); i++ {
-		tokens := strings.Fields(raw_lines[i])
-		line := ""
-		
-		if len(tokens) == 0 {
-			continue
-		}
-		
-		for j := 0; j < len(tokens); j++ {
-			token := tokens[j]
-			if token[len(token) - 1:] == "," {
-				token = tokens[j][:len(tokens[j]) - 1]
-			}
-
-			match, _ := regexp.MatchString("\\.\\w+:\\d+", token)
-
-			// ignore IDA's line prefix that contains segment and address data
-			if match == true {
-				continue
-			}
-			
-			if token[0:1] == ";" {
-				// skip comments
-				break
-			}
-			
-			line += token
-			line += " "
-		}
-		
-		if len(line) > 0 {
-			lines = append(lines, line)
-		}
-	}
 	
 	output, err := os.Create(filename + ".c")
 
@@ -81,12 +45,7 @@ func main() {
 		instruction_data := instructions[instruction]
 		
 		for j := 0; j < len(tokens); j++ {
-			if tokens[j] == "jmp" {
-				indent(output, indentation)
-				if tokens[j + 1] == "short" {
-					output.Write([]byte("goto " + tokens[j + 2] + ";\n"))
-				}
-			} else if tokens[j] == "jz" && previous_line != nil {
+			if tokens[j] == "jz" && previous_line != nil {
 				var location string
 				if tokens[j + 1] == "short" {
 					location = tokens[j + 2]
