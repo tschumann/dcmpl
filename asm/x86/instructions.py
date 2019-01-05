@@ -2,6 +2,8 @@ from .add import Add
 from .align import Align
 from .call import Call
 from .cmp import Cmp
+from .fld import Fld
+from .fstp import Fstp
 from .inc import Inc
 from .jmp import Jmp
 from .jnz import Jnz
@@ -19,6 +21,8 @@ def get_instructions():
 		"add": Add,
 		"align": Align,
 		"call": Call,
+		"fld": Fld,
+		"fstp": Fstp,
 		"jmp": Jmp,
 		"label": Label,
 		"mov": Mov,

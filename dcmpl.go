@@ -7,36 +7,6 @@ import "regexp"
 import "strings"
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Println("No file specified")
-		os.Exit(1)
-	}
-
-	filename := os.Args[1]
-		
-	data, err := ioutil.ReadFile(filename)
-
-	if err != nil {
-		fmt.Println("Error reading file: ", err)
-		os.Exit(1)
-	}
-	
-	raw_lines := strings.Split(string(data), "\n")
-	lines := make([]string, 0)
-	
-	assembly := asm.Assembly{}
-	// assembly.Lines := list.New()
-	
-	output, err := os.Create(filename + ".c")
-
-	if err != nil {
-		fmt.Println("Error opening file: ", err)
-		os.Exit(1)
-	}
-
-	instructions := x86.Instruction_info()
-	indentation := 0
-	registers := make(map[string]int)
 	
 	for i := 0; i < len(lines); i++ {
 		tokens := strings.Fields(lines[i])

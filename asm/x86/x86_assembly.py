@@ -4,6 +4,8 @@ from .instructions import get_instructions
 
 class X86Assembly(Assembly):
 
+	fpu_stack = []
+
 	def get_valid_registers(self):
 		if self.is_x64():
 			return ['rax', 'rbx', 'rcx', 'rdx', 'rdi', 'rsi', 'rbp', 'rsp', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15']
@@ -18,6 +20,9 @@ class X86Assembly(Assembly):
 			return "rsp"
 		else:
 			return "esp"
+
+	def handle_floating_point_instruction(self, instruction):
+		self.fpu_stack.append(instruction)
 
 	def is_x64(self):
 		return False

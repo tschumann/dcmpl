@@ -59,14 +59,24 @@ class Assembly(object):
 				print("Unknown instruction " + instruction_name)
 
 			if instruction:
-				instruction.assembly = self
 				# add it to the list of instructions
 				self.instructions.append(instruction)
+				self.instructions[-1].assembly = self
+				self.instructions[-1].assembly_index = len(self.instructions) - 1
 	
 	def generate_code(self, output_filename):
 		for instruction in self.instructions:
-			self.output.extend(instruction.generate_code())
-			instruction.set_processed()
+			if instruction.is_processed():
+				raise Exception("Instruction has already been processed")
+			else:
+				generated_code = instruction.generate_code()
+
+				if instruction.is_floating_point_instruction():
+					self.handle_floating_point_instruction(instruction)
+
+				if generated_code is not None and len(generated_code) > 0:
+					self.output.extend(generated_code)
+					instruction.set_processed()
 
 		output_file = open(output_filename + ".c", "w")
 
@@ -82,5 +92,9 @@ class Assembly(object):
 		pass
 
 	def get_stack_register(self):
+		# offload this to subclasses
+		pass
+
+	def handle_floating_point_instruction(self, instruction):
 		# offload this to subclasses
 		pass

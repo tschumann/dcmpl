@@ -19,7 +19,6 @@ class Instruction(object):
 		"""
 		Generate C code for this instruction and its arguments.
 		TODO: will probably need a reference to the global instruction list to be able to this
-		TODO: need to fail if processed is True
 		"""
 		raise Exception("Override generate_code in " + self.__class__.__name__)
 
@@ -32,12 +31,18 @@ class Instruction(object):
 		# let the subclasses figure it out
 		return None
 
+	def is_floating_point_instruction(self):
+		return False
+
 	def get_argument_count(self):
 		return len(self.arguments)
 
 	@abstractmethod
 	def max_arguments(self):
 		pass
+
+	def is_processed(self):
+		return self.processed
 
 	def set_processed(self):
 		self.processed = True
