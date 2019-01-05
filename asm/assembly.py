@@ -1,11 +1,14 @@
 import re
 	
 class Assembly(object):
+	# input lines
 	lines = []
-	registers = {}
+	# our representation of instructions
 	instructions = []
 	# register stack
 	stack = []
+
+	output = []
 
 	_valid_instructions = []
 
@@ -43,6 +46,7 @@ class Assembly(object):
 			
 		self.lines = lines
 
+		# turn the processed assembly into instruction classes
 		for tokens in self.lines:
 			instruction_name = tokens[0]
 
@@ -52,12 +56,21 @@ class Assembly(object):
 				instruction = self._valid_instructions[instruction_name](tokens[1:])
 				# add it to the list of instructions
 				self.instructions.append(instruction)
+			# if it looks like a label
+			elif instruction_name[-1:] == ":":
+				# instantiate a label instruction
+				instruction = self._valid_instructions["label"]([instruction_name[:-1]])
+				# add it to the list of instructions
+				self.instructions.append(instruction)
+			else:
+				print("Unknown instruction " + instruction_name)
 
 	def is_valid_instruction(self, instruction):
 		if instruction in self._valid_instructions:
 			return True
 		else:
 			# TODO: handle functions and labels etc
+			# TODO: to do that, turn this into an object from instruction method?
 			return False
 
 	def get_instruction_class_object(self, instruction, arguments):
@@ -66,9 +79,15 @@ class Assembly(object):
 		# instantiate the instruction class with the instruction parameters
 		return instruction_class(arguments)
 	
-	def generate_code(self):
+	def generate_code(self, output_filename):
 		for instruction in self.instructions:
-			instruction.generate_code()
+			self.output.extend(instruction.generate_code())
+			instruction.set_processed()
+
+		output_file = open(output_filename + ".c", "w")
+
+		for line in self.output:
+			output_file.write(line + "\n");
 
 	# TODO: eventually get rid of this and move the processing into this class
 	def get_lines(self):

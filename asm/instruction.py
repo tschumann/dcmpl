@@ -27,11 +27,12 @@ class Instruction(object):
 
 	def modifies_register(self, register):
 		# if it's not a valid register throw an error
+		# TODO: this isn't the right place for this
 		if register not in self.assembly.get_valid_registers():
 			raise ValueError("No such register " + register)
 
 		# let the subclasses figure it out
-		return False
+		return None
 
 	def get_argument_count(self):
 		return len(self.arguments)
@@ -39,3 +40,6 @@ class Instruction(object):
 	@abstractmethod
 	def max_arguments(self):
 		pass
+
+	def set_processed(self):
+		self.processed = True

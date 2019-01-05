@@ -19,31 +19,7 @@ def decompile(architecture, filename):
 		# TODO: error out
 		assembly = None
 
-	cleaned_lines = assembly.get_lines()
-			
-	output_file = open(filename + ".c", "w")
-
-	for line in cleaned_lines:
-		tokens = line
-		for index in range(0, len(line)):
-			instruction = tokens[0]
-
-			# if it's the first token then it could be an instruction
-			# if it doesn't end with a : (like a label) then it is an instruction
-			if index == 0 and instruction[-1:] != ":":
-				
-				# TODO: need to work out something better - the token may not be a valid instruction and if it is we want to know so we can support it - shouldn't get this far if it's not a valid instruction though
-				if assembly.is_valid_instruction(instruction):
-					# instantiate the instruction class with the instruction parameters and generate the code
-					generated_code = assembly.get_instruction_class_object(instruction, tokens[1:]).generate_code()
-
-					for line in generated_code:
-						output_file.write(line  + "\n");
-				else:
-					print("Unknown instruction " + instruction)
-			# if it is a label
-			elif index == 0 and instruction[-1:] == ":":
-				output_file.write(instruction + "\n")
+	assembly.generate_code(filename)
 
 if __name__ == '__main__':
 	if len(sys.argv) < 3:

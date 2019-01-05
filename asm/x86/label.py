@@ -1,8 +1,8 @@
 from .x86_instruction import X86Instruction
 
-class Public(X86Instruction):
+class Label(X86Instruction):
 	"""
-	Not really an instruction but IDA outputs this at the start of a function definition.
+	Not really an instruction need a way to represent a jump destination.
 	"""
 
 	def modifies_register(self, register):
@@ -12,7 +12,7 @@ class Public(X86Instruction):
 
 	@staticmethod
 	def max_arguments(self):
-		return 1
+		return 0
 
 	@staticmethod
 	def sets_zero_flag(self):
@@ -20,6 +20,5 @@ class Public(X86Instruction):
 
 	def generate_code(self):
 		return [
-			"void *" + self.arguments[0] + "()",
-			"{"
+			self.arguments[0] + ":"
 		]

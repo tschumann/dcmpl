@@ -6,6 +6,7 @@ from .inc import Inc
 from .jmp import Jmp
 from .jnz import Jnz
 from .jz import Jz
+from .label import Label
 from .mov import Mov
 from .pop import Pop
 from .public import Public
@@ -19,6 +20,7 @@ def get_instructions():
 		"align": Align,
 		"call": Call,
 		"jmp": Jmp,
+		"label": Label,
 		"mov": Mov,
 		"public": Public,
 		"retn": Retn,
