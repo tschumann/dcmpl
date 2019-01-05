@@ -16,8 +16,9 @@ def decompile(architecture, filename):
 	elif architecture == 'mips':
 		assembly = asm.mips.mips_assembly.MIPSAssembly(raw_lines)
 	else:
-		# TODO: error out
-		assembly = None
+		print("Unknown architecture " + architecture)
+
+		return
 
 	assembly.generate_code(filename)
 
