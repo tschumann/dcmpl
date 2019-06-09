@@ -11,4 +11,7 @@ class X86Instruction(Instruction, ABC):
 		pass
 
 	def uses_floating_point_stack(self):
-		False
+		return False
+
+	def pops_floating_point_stack(self):
+		return False

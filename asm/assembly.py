@@ -35,23 +35,24 @@ class Assembly(object):
 				if token[-1:] == ",":
 					token = token[:-1]
 
-				# save the line after getting rid of bad tokens etc
+				# add the cleaned up token to the current line
 				cleaned_line.append(token)
 
 			# if there was actually something we can use on the line, keep it
 			if len(cleaned_line) > 0:
 				lines.append(cleaned_line)
 
-		# turn the processed assembly into instruction classes
+		# turn the cleaned up assembly into instruction classes
 		for tokens in lines:
 			instruction_name = tokens[0]
+			instruction_arguments = tokens[1:]
 			instruction = None
 
 			# if the instruction is known
 			if instruction_name in self._valid_instructions:
 				# instantiate an instance of the instruction with the arguments
-				instruction = self._valid_instructions[instruction_name](tokens[1:])
-			# if it looks like a label
+				instruction = self._valid_instructions[instruction_name](instruction_arguments)
+			# if it's not known but it looks like a label
 			elif instruction_name[-1:] == ":":
 				# instantiate a label instruction
 				instruction = self._valid_instructions["label"]([instruction_name[:-1]])
@@ -59,15 +60,15 @@ class Assembly(object):
 				print("Unknown instruction " + instruction_name)
 
 			if instruction:
+				instruction.assembly = self
+				instruction.assembly_index = len(self.instructions)
 				# add it to the list of instructions
 				self.instructions.append(instruction)
-				self.instructions[-1].assembly = self
-				self.instructions[-1].assembly_index = len(self.instructions) - 1
 	
 	def generate_code(self, output_filename):
 		for instruction in self.instructions:
 			if instruction.is_processed():
-				raise Exception("Instruction has already been processed")
+				raise Exception("Instruction has already been processed!")
 			else:
 				generated_code = instruction.generate_code()
 
@@ -98,3 +99,15 @@ class Assembly(object):
 	def handle_floating_point_instruction(self, instruction):
 		# offload this to subclasses
 		pass
+
+	def get_count_on_stack(self, register):
+		"""
+		Get the number of times the given register is currently pushed on the stack.
+		"""
+		count = 0
+
+		for stored in self.stack:
+			if stored == register:
+				count += 1
+
+		return count

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Instruction(object):
+	# the arguments to this instruction
 	arguments = []
 	# whether this instruction has been processed for code generation in the scope of the parent assembly
 	processed = False
@@ -32,13 +33,22 @@ class Instruction(object):
 		return None
 
 	def is_floating_point_instruction(self):
+		"""
+		Whether this is an FPU instruction.
+		"""
 		return False
 
 	def get_argument_count(self):
+		"""
+		How many arguments this instruction has.
+		"""
 		return len(self.arguments)
 
 	@abstractmethod
 	def max_arguments(self):
+		"""
+		The maximum number of arguments this instruction can take.
+		"""
 		pass
 
 	def is_processed(self):

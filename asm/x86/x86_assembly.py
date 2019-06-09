@@ -26,15 +26,3 @@ class X86Assembly(Assembly):
 
 	def is_x64(self):
 		return False
-
-	def get_count_on_stack(self, register):
-		"""
-		Get the number of times the given register is currently pushed on the stack.
-		"""
-		count = 0
-
-		for stored in self.stack:
-			if stored == register:
-				count += 1
-
-		return count
