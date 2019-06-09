@@ -1,1 +1,1 @@
-C:\Users\schum\AppData\Local\Programs\Python\Python36\python tests.py
+python tests.py

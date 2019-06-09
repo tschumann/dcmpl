@@ -3,4 +3,4 @@ dcmpl
 
 Usage
 -----
-Pass the name of a .asm file as the first argument. Accepted assembly syntax is what IDA provides.
+Pass the architecture as the first argument (x86|mips) and the path of a .asm file as the second argument. Accepted assembly syntax is what IDA provides.

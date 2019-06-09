@@ -1,1 +1,1 @@
-C:\Users\schum\AppData\Local\Programs\Python\Python36\python dcmpl.py
+python dcmpl.py
