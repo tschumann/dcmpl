@@ -1,15 +1,13 @@
 from .x86_instruction import X86Instruction
 
-class Fld(X86Instruction):
+class Fcos(X86Instruction):
 
 	def modifies_register(self, register):
-		super().modifies_register(register)
-
 		return False
 
 	@staticmethod
 	def max_arguments(self):
-		return 3
+		return 0
 
 	@staticmethod
 	def sets_zero_flag(self):
@@ -19,5 +17,8 @@ class Fld(X86Instruction):
 		return True
 
 	def generate_code(self):
-		self.assembly.fpu_stack.append(self.arguments)
-		return []
+		# argument to cos will be last thing pushed to FPU stack
+		arguments = self.assembly.fpu_stack.pop()
+		return [
+			"cos(" + (" ".join(arguments)) + ");"
+		]

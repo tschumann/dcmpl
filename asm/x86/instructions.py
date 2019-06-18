@@ -2,6 +2,7 @@ from .add import Add
 from .align import Align
 from .call import Call
 from .cmp import Cmp
+from .fcos import Fcos
 from .fld import Fld
 from .fstp import Fstp
 from .inc import Inc
@@ -21,6 +22,7 @@ def get_instructions():
 		"add": Add,
 		"align": Align,
 		"call": Call,
+		"fcos": Fcos,
 		"fld": Fld,
 		"fstp": Fstp,
 		"jmp": Jmp,
