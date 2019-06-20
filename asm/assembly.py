@@ -79,6 +79,7 @@ class Assembly(object):
 					self.output.extend(generated_code)
 					instruction.set_processed()
 
+		# TODO: do this in a separate method so that testing generated code is easier
 		output_file = open(output_filename + ".c", "w")
 
 		for line in self.output:

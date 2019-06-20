@@ -18,7 +18,7 @@ class Fcos(X86Instruction):
 
 	def generate_code(self):
 		# argument to cos will be last thing pushed to FPU stack
-		arguments = self.assembly.fpu_stack.pop()
-		return [
-			"cos(" + (" ".join(arguments)) + ");"
-		]
+		value = self.assembly.fpu_stack.pop()
+		# put the result on top of the FPU stack
+		self.assembly.fpu_stack.append("cos(" + value + ")")
+		return []

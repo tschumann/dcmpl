@@ -19,18 +19,8 @@ class Fstp(X86Instruction):
 		return True
 
 	def generate_code(self):
-		# get the index of the previous instruction
-		index = self.assembly_index - 1
+		value = self.assembly.fpu_stack.pop()
 
-		while True:
-			previous_instruction = self.assembly.instructions[index]
-
-			if len(self.assembly.fpu_stack) == 0 or index == 0:
-				return
-
-			if not previous_instruction.is_processed() and previous_instruction.uses_floating_point_stack():
-				pass
-
-			index -= 1
-
-		return []
+		return [
+			value + ";"
+		]

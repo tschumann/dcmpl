@@ -19,5 +19,8 @@ class Fld(X86Instruction):
 		return True
 
 	def generate_code(self):
-		self.assembly.fpu_stack.append(self.arguments)
+		# put the value on the FPU stack
+		# TODO: process it to strip off DWORD PTR etc
+		self.assembly.fpu_stack.append(" ".join(self.arguments))
+		# code generation will happen in an instruction that pops the FPU stack
 		return []
