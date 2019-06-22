@@ -19,7 +19,7 @@ class TestX86Fcos(unittest.TestCase):
 		fld.assembly = assembly
 		fcos = Fcos([])
 		fcos.assembly = assembly
-		fstp = Fstp([])
+		fstp = Fstp(['[esp+7Ch+var_3C]'])
 		fstp.assembly = assembly
 		
 		fld.generate_code()
@@ -28,7 +28,7 @@ class TestX86Fcos(unittest.TestCase):
 		
 		self.assertEqual(fld.generate_code(), [])
 		self.assertEqual(fcos.generate_code(), [])
-		self.assertEqual(fstp.generate_code(), ['cos(DWORD PTR [esp+4]);'])
+		self.assertEqual(fstp.generate_code(), ['[esp+7Ch+var_3C] = cos(DWORD PTR [esp+4]);'])
 
 if __name__ == '__main__':
     unittest.main()

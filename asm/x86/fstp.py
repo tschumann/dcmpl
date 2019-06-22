@@ -22,5 +22,5 @@ class Fstp(X86Instruction):
 		value = self.assembly.fpu_stack.pop()
 
 		return [
-			value + ";"
+			self.arguments[0] + " = " + value + ";"
 		]
