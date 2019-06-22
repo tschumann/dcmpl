@@ -1,6 +1,6 @@
 from .x86_instruction import X86Instruction
 
-class Fld(X86Instruction):
+class Fldz(X86Instruction):
 
 	def modifies_register(self, register):
 		super().modifies_register(register)
@@ -9,7 +9,7 @@ class Fld(X86Instruction):
 
 	@staticmethod
 	def max_arguments(self):
-		return 3
+		return 0
 
 	@staticmethod
 	def sets_zero_flag(self):
@@ -19,9 +19,8 @@ class Fld(X86Instruction):
 		return True
 
 	def generate_code(self):
-		# put the value on the FPU stack
-		# TODO: process it to strip off DWORD PTR etc
-		self.assembly.fpu_stack.append(" ".join(self.arguments))
+		# put 0.0 on the FPU stack
+		self.assembly.fpu_stack.append("0.0")
 
 		# code generation will happen in an instruction that pops the FPU stack
 		return []

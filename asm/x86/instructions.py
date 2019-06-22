@@ -4,7 +4,9 @@ from .call import Call
 from .cmp import Cmp
 from .fcos import Fcos
 from .fld import Fld
+from .fldz import Fldz
 from .fstp import Fstp
+from .fsub import Fsub
 from .inc import Inc
 from .jmp import Jmp
 from .jnz import Jnz
@@ -24,7 +26,9 @@ def get_instructions():
 		"call": Call,
 		"fcos": Fcos,
 		"fld": Fld,
+		"fldz": Fldz,
 		"fstp": Fstp,
+		"fsub": Fsub,
 		"jmp": Jmp,
 		"label": Label,
 		"mov": Mov,

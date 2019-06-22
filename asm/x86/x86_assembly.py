@@ -21,8 +21,5 @@ class X86Assembly(Assembly):
 		else:
 			return "esp"
 
-	def handle_floating_point_instruction(self, instruction):
-		self.fpu_stack.append(instruction)
-
 	def is_x64(self):
 		return False

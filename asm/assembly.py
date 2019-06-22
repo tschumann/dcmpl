@@ -1,4 +1,5 @@
 import re
+import pathlib
 	
 class Assembly(object):
 	# our representation of instructions
@@ -72,15 +73,16 @@ class Assembly(object):
 			else:
 				generated_code = instruction.generate_code()
 
-				if instruction.is_floating_point_instruction():
-					self.handle_floating_point_instruction(instruction)
-
 				if generated_code is not None and len(generated_code) > 0:
 					self.output.extend(generated_code)
 					instruction.set_processed()
 
 		# TODO: do this in a separate method so that testing generated code is easier
-		output_file = open(output_filename + ".c", "w")
+		output_filename = pathlib.Path(output_filename).stem + ".c"
+		print("Writing to " + output_filename)
+		output_file = open(output_filename, "w")
+		import os
+		print(os.path.realpath(output_file.name))
 
 		for line in self.output:
 			output_file.write(line + "\n");
@@ -94,10 +96,6 @@ class Assembly(object):
 		pass
 
 	def get_stack_register(self):
-		# offload this to subclasses
-		pass
-
-	def handle_floating_point_instruction(self, instruction):
 		# offload this to subclasses
 		pass
 
