@@ -20,5 +20,5 @@ class Fcos(X86Instruction):
 		# argument to cos will be last thing pushed to FPU stack
 		value = self.assembly.fpu_stack.pop()
 		# put the result on top of the FPU stack
-		self.assembly.fpu_stack.append("cos(" + value + ")")
+		self.assembly.fpu_stack.push("cos(" + value + ")")
 		return []

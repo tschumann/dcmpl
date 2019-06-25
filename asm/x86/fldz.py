@@ -20,7 +20,7 @@ class Fldz(X86Instruction):
 
 	def generate_code(self):
 		# put 0.0 on the FPU stack
-		self.assembly.fpu_stack.append("0.0")
+		self.assembly.fpu_stack.push("0.0")
 
 		# code generation will happen in an instruction that pops the FPU stack
 		return []
