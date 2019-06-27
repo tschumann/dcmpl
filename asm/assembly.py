@@ -2,20 +2,23 @@ import re
 import pathlib
 	
 class Assembly(object):
-	# our representation of instructions
-	instructions = []
-	# register stack
-	stack = []
-
-	output = []
-
-	_valid_instructions = []
 
 	def __init__(self, raw_lines):
+		# our representation of instructions
+		self.instructions = []
+		# register stack
+		self.stack = []
+		# state of the stacks etc at jump instructions
+		self.label_contexts = {}
+		# lines of generated code
+		self.output = []
+
+		valid_instructions = []
+
 		lines = []
 
-		# cache this as a member
-		self._valid_instructions = self.get_valid_instructions()
+		# cache this
+		valid_instructions = self.get_valid_instructions()
 
 		# tidy up the raw assembly
 		for line in raw_lines:
@@ -50,13 +53,13 @@ class Assembly(object):
 			instruction = None
 
 			# if the instruction is known
-			if instruction_name in self._valid_instructions:
+			if instruction_name in valid_instructions:
 				# instantiate an instance of the instruction with the arguments
-				instruction = self._valid_instructions[instruction_name](instruction_arguments)
+				instruction = valid_instructions[instruction_name](instruction_arguments)
 			# if it's not known but it looks like a label
 			elif instruction_name[-1:] == ":":
 				# instantiate a label instruction
-				instruction = self._valid_instructions["label"]([instruction_name[:-1]])
+				instruction = valid_instructions["label"]([instruction_name[:-1]])
 			else:
 				print("Unknown instruction " + instruction_name)
 

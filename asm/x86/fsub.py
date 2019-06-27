@@ -21,7 +21,7 @@ class Fsub(X86Instruction):
 	def generate_code(self):
 		value = self.assembly.fpu_stack.pop()
 		# TODO: add parentheses around this?
-		self.assembly.fpu_stack.push(value + " - " + self.arguments[0])
+		self.assembly.fpu_stack.push(value + " - " + " ".join(self.arguments))
 
 		# code generation will happen in an instruction that pops the FPU stack
 		return []
