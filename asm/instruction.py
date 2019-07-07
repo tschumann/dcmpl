@@ -5,6 +5,8 @@ class Instruction(object):
 	def __init__(self, arguments):
 		# the arguments to this instruction
 		self.arguments = arguments
+		# the line number this instruction is on
+		self.line_number = None
 		# whether this instruction has been processed for code generation in the scope of the parent assembly
 		self.processed = False
 		# keep track of the assembly this instruction is in - dirty but need the context of the whole assembly to generate decent code

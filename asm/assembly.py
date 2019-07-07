@@ -20,6 +20,8 @@ class Assembly(object):
 		# cache this
 		valid_instructions = self.get_valid_instructions()
 
+		line_number = 1
+
 		# tidy up the raw assembly
 		for line in raw_lines:
 			tokens = line.split()
@@ -44,10 +46,13 @@ class Assembly(object):
 
 			# if there was actually something we can use on the line, keep it
 			if len(cleaned_line) > 0:
-				lines.append(cleaned_line)
+				lines.append({"cleaned_line": cleaned_line, "line_number": line_number})
+
+			line_number += 1
 
 		# turn the cleaned up assembly into instruction classes
-		for tokens in lines:
+		for line in lines:
+			tokens = line["cleaned_line"]
 			instruction_name = tokens[0]
 			instruction_arguments = tokens[1:]
 			instruction = None
@@ -65,6 +70,7 @@ class Assembly(object):
 
 			if instruction:
 				instruction.assembly = self
+				instruction.line_number = line["line_number"]
 				instruction.assembly_index = len(self.instructions)
 				# add it to the list of instructions
 				self.instructions.append(instruction)
