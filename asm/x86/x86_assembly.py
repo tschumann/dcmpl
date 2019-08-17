@@ -8,6 +8,8 @@ class X86Assembly(Assembly):
 	def __init__(self, raw_lines):
 		super().__init__(raw_lines)
 		self.fpu_stack = X86FPUStack()
+		# store the state of the FPU stack at each label
+		self.fpu_stacks = {}
 
 	def get_valid_registers(self):
 		if self.is_x64():
