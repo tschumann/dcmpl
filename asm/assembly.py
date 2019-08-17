@@ -86,12 +86,10 @@ class Assembly(object):
 					self.output.extend(generated_code)
 					instruction.set_processed()
 
-		# TODO: do this in a separate method so that testing generated code is easier
+		# TODO: put this in a separate method so that testing generated code is easier
 		output_filename = pathlib.Path(output_filename).stem + ".c"
 		print("Writing to " + output_filename)
 		output_file = open(output_filename, "w")
-		import os
-		print(os.path.realpath(output_file.name))
 
 		for line in self.output:
 			output_file.write(line + "\n");
