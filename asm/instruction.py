@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 class Instruction(object):
 
-	def __init__(self, arguments):
+	def __init__(self, arguments: List[str]):
 		# the arguments to this instruction
 		self.arguments = arguments
 		# the line number this instruction is on
@@ -21,7 +22,7 @@ class Instruction(object):
 		"""
 		raise Exception("Override generate_code in " + self.__class__.__name__)
 
-	def modifies_register(self, register):
+	def modifies_register(self, register: str):
 		# if it's not a valid register throw an error
 		# TODO: this isn't the right place for this
 		if register not in self.assembly.get_valid_registers():

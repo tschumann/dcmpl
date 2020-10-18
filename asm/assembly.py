@@ -1,9 +1,11 @@
 import re
 import pathlib
+
+from typing import List
 	
 class Assembly(object):
 
-	def __init__(self, raw_lines):
+	def __init__(self, raw_lines: List[str]):
 		# our representation of instructions
 		self.instructions = []
 		# register stack
@@ -75,7 +77,7 @@ class Assembly(object):
 				# add it to the list of instructions
 				self.instructions.append(instruction)
 	
-	def generate_code(self, output_filename):
+	def generate_code(self, output_filename: str):
 		for instruction in self.instructions:
 			if instruction.is_processed():
 				raise Exception("Instruction has already been processed!")
@@ -106,7 +108,7 @@ class Assembly(object):
 		# offload this to subclasses
 		pass
 
-	def get_count_on_stack(self, register):
+	def get_count_on_stack(self, register: str):
 		"""
 		Get the number of times the given register is currently pushed on the stack.
 		"""

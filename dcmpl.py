@@ -4,7 +4,7 @@ import asm.mips.mips_assembly
 import asm.x86.x86_assembly
 import sys
 
-def decompile(architecture, filename):
+def decompile(architecture, filename: str):
 	raw_lines = []
 	
 	# get the assembly in line by line
