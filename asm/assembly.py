@@ -67,6 +67,9 @@ class Assembly(object):
 			elif instruction_name[-1:] == ":":
 				# instantiate a label instruction
 				instruction = valid_instructions["label"]([instruction_name[:-1]])
+			# if it's func_name proc near or func_name endp then skip it
+			elif len(instruction_arguments) > 0 and instruction_arguments[0] in ["proc", "endp"]:
+				continue
 			else:
 				print("Unknown instruction " + instruction_name)
 
