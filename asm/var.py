@@ -1,8 +1,8 @@
-from .x86_instruction import X86Instruction
+from .instruction import Instruction
 
-class Public(X86Instruction):
+class Var(Instruction):
 	"""
-	Not really an instruction but IDA outputs this at the start of a function definition.
+	Not an instruction but covers IDA's arg_ and var_ declarations.
 	"""
 
 	def modifies_register(self, register):
@@ -12,7 +12,7 @@ class Public(X86Instruction):
 
 	@staticmethod
 	def max_arguments(self):
-		return 1
+		return 4
 
 	@staticmethod
 	def sets_zero_flag(self):
@@ -20,6 +20,5 @@ class Public(X86Instruction):
 
 	def generate_code(self):
 		return [
-			"void *" + self.arguments[0] + "()",
-			"{"
+			"void *" + self.arguments[0]
 		]

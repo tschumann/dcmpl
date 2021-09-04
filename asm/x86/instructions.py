@@ -13,11 +13,13 @@ from .jnz import Jnz
 from .jz import Jz
 from .label import Label
 from .mov import Mov
+from .or_ import Or
 from .pop import Pop
-from .public import Public
 from .push import Push
 from .retn import Retn
 from .test import Test
+from ..public import Public
+from ..var import Var
 
 def get_instructions():
 	return {
@@ -32,7 +34,9 @@ def get_instructions():
 		"jmp": Jmp,
 		"label": Label,
 		"mov": Mov,
+		"or": Or,
 		"public": Public,
 		"retn": Retn,
-		"test": Test
+		"test": Test,
+		"var": Var
 	}

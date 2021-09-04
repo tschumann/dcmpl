@@ -67,6 +67,11 @@ class Assembly(object):
 			elif instruction_name[-1:] == ":":
 				# instantiate a label instruction
 				instruction = valid_instructions["label"]([instruction_name[:-1]])
+			# if it's an IDA function argument or local parameter
+			elif instruction_name.startswith("arg_") or instruction_name.startswith("var_"):
+				# instantiate a label instruction
+				print(instruction_arguments)
+				instruction = valid_instructions["var"]([instruction_name] + instruction_arguments)
 			# if it's func_name proc near or func_name endp then skip it
 			elif len(instruction_arguments) > 0 and instruction_arguments[0] in ["proc", "endp"]:
 				continue

@@ -1,3 +1,8 @@
+from ..public import Public
+from ..var import Var
 
 def get_instructions():
-	return {}
+	return {
+		"test": Test,
+		"var": Var
+	}
