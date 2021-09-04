@@ -14,6 +14,10 @@ class Instruction(object):
 		self.assembly = None
 		# the index into the assembly's list of instructions
 		self.assembly_index = -1
+		# indices of other instructions in this assembly that this instruction relates to
+		self.related_instructions = []
+		# whether or not to generate code for this instruction
+		self.should_generate_code = True
 
 	def generate_code(self):
 		"""

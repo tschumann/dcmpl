@@ -84,11 +84,17 @@ class Assembly(object):
 				instruction.assembly_index = len(self.instructions)
 				# add it to the list of instructions
 				self.instructions.append(instruction)
-	
-	def generate_code(self, output_filename: str):
+
+	def process_instructions(self):
+		for instruction in self.instructions:
+			pass
+
+	def generate_code(self):
 		for instruction in self.instructions:
 			if instruction.is_processed():
 				raise Exception("Instruction has already been processed!")
+			if not instruction.should_generate_code:
+				continue
 			else:
 				generated_code = instruction.generate_code()
 
@@ -96,7 +102,7 @@ class Assembly(object):
 					self.output.extend(generated_code)
 					instruction.set_processed()
 
-		# TODO: put this in a separate method so that testing generated code is easier
+	def write_code_to_file(self, output_filename: str):
 		output_filename = pathlib.Path(output_filename).stem + ".c"
 		print("Writing to " + output_filename)
 		output_file = open(output_filename, "w")

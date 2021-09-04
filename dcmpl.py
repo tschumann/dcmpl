@@ -20,7 +20,9 @@ def decompile(architecture, filename: str):
 
 		return
 
-	assembly.generate_code(filename)
+	assembly.process_instructions()
+	assembly.generate_code()
+	assembly.write_code_to_file(filename)
 
 if __name__ == '__main__':
 	if len(sys.argv) < 3:
